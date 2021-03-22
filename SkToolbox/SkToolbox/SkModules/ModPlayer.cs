@@ -39,6 +39,7 @@ namespace SkToolbox.SkModules
 			skMenu.AddItem("Repair All", RepairAll, "Repair all your items");
 			skMenu.AddItem("Heal Self", Heal, "Heal yourself");
 			skMenu.AddItem("Tame", Tame, "Tame all nearby creatures");
+			skMenu.AddItem("Teleport to Player", BeginListPlayer, "Go to player!");
 			skMenu.AddItemToggle("Enable Teleport to Mouse", ref bTeleport, ToggleTeleport, "Press tilde (Alt Gr) to teleport!");
 			skMenu.AddItemToggle("Enable God Item", ref SkCommandProcessor.godItem, ToggleGodItem, "Item Cheated!");
 			skMenu.AddItemToggle("Build Anywhere", ref SkCommandPatcher.bBuildAnywhere, ToggleAnywhere, "Remove build restrictions");
@@ -50,6 +51,19 @@ namespace SkToolbox.SkModules
 			skMenu.AddItemToggle("Infinite Stamina", ref SkCommandProcessor.infStamina, ToggleInfStam, "Infinite stamina for yourself");
 			skMenu.AddItem("Give Item\t\t►", BeginListItems, "Give item(s) to self");
 			base.MenuOptions = skMenu;
+		}
+
+		public void BeginListPlayer()
+		{
+			SkMenu skMenu = new SkMenu();			
+			foreach (ZNet.PlayerInfo player in ZNet.instance.GetPlayerList())
+			{
+				skMenu.AddItem(player.m_name, (name)=> {
+					SkCommandProcessor.ProcessCommand("/tpto "+ name, SkCommandProcessor.LogTo.Chat);
+					BeginMenu();
+				});
+			}
+			RequestMenu(skMenu);
 		}
 
 		public void BeginListItems()
