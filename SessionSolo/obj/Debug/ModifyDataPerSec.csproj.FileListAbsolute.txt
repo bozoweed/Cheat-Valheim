@@ -1,0 +1,6 @@
+C:\Users\Bozoweed\Downloads\valheim-mods-main\valheim-mods-main\ModifyDataPerSec\bin\Debug\ModifyDataPerSec.dll
+C:\Users\Bozoweed\Downloads\valheim-mods-main\valheim-mods-main\ModifyDataPerSec\bin\Debug\ModifyDataPerSec.pdb
+C:\Users\Bozoweed\Downloads\valheim-mods-main\valheim-mods-main\ModifyDataPerSec\obj\Debug\ModifyDataPerSec.csprojAssemblyReference.cache
+C:\Users\Bozoweed\Downloads\valheim-mods-main\valheim-mods-main\ModifyDataPerSec\obj\Debug\ModifyDataPerSec.csproj.CoreCompileInputs.cache
+C:\Users\Bozoweed\Downloads\valheim-mods-main\valheim-mods-main\ModifyDataPerSec\obj\Debug\ModifyDataPerSec.dll
+C:\Users\Bozoweed\Downloads\valheim-mods-main\valheim-mods-main\ModifyDataPerSec\obj\Debug\ModifyDataPerSec.pdb

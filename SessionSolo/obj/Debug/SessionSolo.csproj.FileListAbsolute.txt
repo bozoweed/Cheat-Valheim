@@ -1,0 +1,6 @@
+C:\Users\Bozoweed\Downloads\valheim-mods-main\valheim-mods-main\ModifyDataPerSec\bin\Debug\SessionSolo.dll
+C:\Users\Bozoweed\Downloads\valheim-mods-main\valheim-mods-main\ModifyDataPerSec\bin\Debug\SessionSolo.pdb
+C:\Users\Bozoweed\Downloads\valheim-mods-main\valheim-mods-main\ModifyDataPerSec\obj\Debug\SessionSolo.csproj.CoreCompileInputs.cache
+C:\Users\Bozoweed\Downloads\valheim-mods-main\valheim-mods-main\ModifyDataPerSec\obj\Debug\SessionSolo.dll
+C:\Users\Bozoweed\Downloads\valheim-mods-main\valheim-mods-main\ModifyDataPerSec\obj\Debug\SessionSolo.pdb
+C:\Users\Bozoweed\Downloads\valheim-mods-main\valheim-mods-main\ModifyDataPerSec\obj\Debug\SessionSolo.csprojAssemblyReference.cache

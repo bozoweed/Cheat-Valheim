@@ -1,0 +1,56 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.0": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.0": []
+  },
+  "packageFolders": {
+    "C:\\Users\\Bozoweed\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\Bozoweed\\Downloads\\valheim-mods-main\\valheim-mods-main\\SkToolbox\\SkToolboxValheim.csproj",
+      "projectName": "SkToolboxValheim",
+      "projectPath": "C:\\Users\\Bozoweed\\Downloads\\valheim-mods-main\\valheim-mods-main\\SkToolbox\\SkToolboxValheim.csproj",
+      "packagesPath": "C:\\Users\\Bozoweed\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Bozoweed\\Downloads\\valheim-mods-main\\valheim-mods-main\\SkToolbox\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\Bozoweed\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net40"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net40": {
+          "targetAlias": "net40",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net40": {
+        "targetAlias": "net40",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
