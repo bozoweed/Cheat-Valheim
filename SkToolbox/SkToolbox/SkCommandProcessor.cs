@@ -204,7 +204,7 @@ namespace SkToolbox
 			{ "/set jumpforce", "[Force] - Set jump force (default 10). Careful if you fall too far!" },
 			{ "/set pickup", "[Radius] - Set your auto pickup radius (default 2)" },
 			{ "/set skill", "[Skill] [Level] - Set your skill level" },
-			{ "/set speed", "[Speed Type] [Speed] - Speed Types: crouch (def: 2), run (def: 120), swim (def: 2)" },
+			{ "/set speed", "[Speed Type] [Speed] - Speed Types: crouch (def: 2), run (def: 120), swim (def: 2), walk (def: 2)" },
 			{ "/tpto", "[PlayerName] - Tp to player" },
 			//{ "/tptome", "[PlayerName] - Tp player to me" },
 			{ "/td", "[Radius=5] [Height=1] - Dig nearby terrain. Radius 30 max." },
@@ -308,12 +308,12 @@ namespace SkToolbox
 			{
 				try
 				{
-					ZNet.PlayerInfo me = GetPlayerInfo(Player.m_localPlayer.m_name);
+					ZNet.PlayerInfo me = GetPlayerInfo(Player.m_localPlayer.GetPlayerName());
 
 					Player targetplayer = GetPlayer(array[1], source);
 					targetplayer.TeleportTo(me.m_position, new Quaternion(), false);
 
-					PrintOut("Tp " + targetplayer.m_name + " to me!", source);
+					PrintOut("Tp " + targetplayer.GetPlayerName() + " to me!", source);
 					return true;
 				}
 				catch
@@ -332,11 +332,10 @@ namespace SkToolbox
 		{
 			try
 			{
-				if (Player.m_localPlayer.name.ToLower() == name.ToLower())
-					return Player.m_localPlayer;
-				ZNet.PlayerInfo target = GetPlayerInfo(name);
-				return Player.GetPlayer(target.m_characterID.userID);
-
+				foreach (Player allPlayer in Player.GetAllPlayers())
+					if (allPlayer != null && allPlayer.GetPlayerName().ToLower().StartsWith(name.ToLower()))
+						return allPlayer;
+				return Player.m_localPlayer;
 			}
 
 			catch (Exception e)
@@ -434,9 +433,8 @@ namespace SkToolbox
 			}
 			if (array[0].Equals("/repair"))
 			{
-				List<ItemDrop.ItemData> list3 = new List<ItemDrop.ItemData>();
-				Player.m_localPlayer.GetInventory().GetWornItems(list3);
-				foreach (ItemDrop.ItemData item in list3)
+				string name = array.Length > 1 ? array[1] : Player.m_localPlayer.GetPlayerName();
+				foreach (ItemDrop.ItemData item in GetPlayer(name, source).GetInventory().GetAllItems())
 				{
 					try
 					{
@@ -453,13 +451,13 @@ namespace SkToolbox
 			{
 				return TpTo(array, source);
 			}
-			/*if (array[0].Equals("/tptome"))
+			if (array[0].Equals("/tptome"))
 			{
 				return TpToMe(array, source);
-			}*/
+			}
 			if (array[0].Equals("/portals"))
 			{
-				PrintOut(ListPortals(), source, playerSay: true);
+				PrintOut(ListPortals(), source);
 				return true;
 			}
 			if (array[0].Equals("/tl"))
@@ -689,7 +687,7 @@ namespace SkToolbox
 				{
 					text3 = text3.Remove(0, 2);
 				}
-				PrintOut("Active Players (" + ZNet.instance.GetPlayerList().Count + ") - " + text3, source, playerSay: true);
+				PrintOut("Active Players (" + ZNet.instance.GetPlayerList().Count + ") - " + text3, source);
 			}
 			if (array[0].Equals("/give"))
 			{
@@ -763,14 +761,27 @@ namespace SkToolbox
 					PrintOut("Failed. Item does not exist. /give [Item] [Qty=1] [Player] [Level=1]. Check for items with /listitems. Capital letters matter on this command!", source);
 					return true;
 				}
-				ZNet.PlayerInfo player = GetPlayerInfo(text4);				
+				Player player = null;
+				foreach (Player allPlayer in Player.GetAllPlayers())
+				{
+					if (allPlayer != null && allPlayer.GetPlayerName().ToLower().StartsWith(text4.ToLower()))
+					{
+						player = allPlayer;
+						break;
+					}
+				}
+				if (player == null)
+				{
+					PrintOut("Failed. Player does not exist. /give [Item] [Qty=1] [Player] [Level=1]", source);
+					return true;
+				}
 				GameObject prefab4 = ZNetScene.instance.GetPrefab(array4[0]);
 				if ((bool)prefab4)
 				{
-					PrintOut("Spawning " + num3 + " of item " + array4[0] + "(" + num4 + ") on " + text4, source, playerSay: true);
+					PrintOut("Spawning " + num3 + " of item " + array4[0] + "(" + num4 + ") on " + text4, source);
 					try
 					{
-						ItemDrop itemDrop = (ItemDrop)UnityEngine.Object.Instantiate(prefab4, new Vector3(player.m_position.x, player.m_position.y, player.m_position.z + 1.5f), Quaternion.identity).GetComponent(typeof(ItemDrop));
+						ItemDrop itemDrop = (ItemDrop)UnityEngine.Object.Instantiate(prefab4, player.transform.position + player.transform.forward * 1.5f + Vector3.up, Quaternion.identity).GetComponent(typeof(ItemDrop));
 						if (itemDrop != null && itemDrop.m_itemData != null)
 						{
 							itemDrop.m_itemData.m_quality = num4;
@@ -823,13 +834,13 @@ namespace SkToolbox
 			if (array[0].Equals("/seed"))
 			{
 				World privateField = WorldGenerator.instance.GetPrivateField<World>("m_world");
-				PrintOut("Map seed: " + privateField.m_seedName, source, playerSay: true);
+				PrintOut("Map seed: " + privateField.m_seedName, source);
 				return true;
 			}
 			if (array[0].Equals("/freecam"))
 			{
 				GameCamera.instance.ToggleFreeFly();
-				PrintOut("Free cam toggled " + GameCamera.InFreeFly(), source, playerSay: true);
+				PrintOut("Free cam toggled " + GameCamera.InFreeFly(), source);
 				return true;
 			}
 			if (array[0].Equals("/heal"))
@@ -841,15 +852,25 @@ namespace SkToolbox
 						if (allPlayer2 != null && allPlayer2.GetPlayerName().ToLower().Equals(array[1].ToLower()))
 						{
 							allPlayer2.Heal(allPlayer2.GetMaxHealth());
-							PrintOut("Player healed: " + allPlayer2.GetPlayerName(), source, playerSay: true);
+							PrintOut("Player healed: " + allPlayer2.GetPlayerName(), source);
 						}
 					}
 				}
 				else
 				{
 					Player.m_localPlayer.Heal(Player.m_localPlayer.GetMaxHealth());
-					PrintOut("Self healed.", source, playerSay: true);
+					PrintOut("Self healed.", source);
 				}
+				return true;
+			}
+			if (array[0].Equals("/maxskill"))
+			{
+				foreach(Skills.Skill skill in Player.m_localPlayer.GetSkills().GetSkillList())
+                {
+					skill.m_level = 99999999f;
+                }
+				PrintOut("Skill up max.", source);
+				
 				return true;
 			}
 			if (array[0].Equals("/nores"))
@@ -916,7 +937,7 @@ namespace SkToolbox
 					{
 						Vector3 pos = new Vector3(x, groundHeight, z);
 						localPlayer.TeleportTo(pos, localPlayer.transform.rotation, distantTeleport: false);
-						PrintOut("Teleporting...", source, playerSay: true);
+						PrintOut("Teleporting...", source);
 					}
 				}
 				catch (Exception)
@@ -1191,22 +1212,25 @@ namespace SkToolbox
 						if (array.Length >= 4)
 						{
 							string text6 = array[2];
-							if (new string[3] { "crouch", "run", "swim" }.Contains(text6))
+							if (new string[] { "crouch", "run", "swim", "walk" }.Contains(text6))
 							{
 								try
 								{
 									int num11 = int.Parse(array[3]);
 									switch (text6)
 									{
-									case "crouch":
-										Player.m_localPlayer.m_crouchSpeed = num11;
-										break;
-									case "run":
-										Player.m_localPlayer.m_runSpeed = num11;
-										break;
-									case "swim":
-										Player.m_localPlayer.m_swimSpeed = num11;
-										break;
+										case "crouch":
+											Player.m_localPlayer.m_crouchSpeed = num11;
+											break;
+										case "run":
+											Player.m_localPlayer.m_runSpeed = num11;
+											break;
+										case "swim":
+											Player.m_localPlayer.m_swimSpeed = num11;
+											break;
+										case "walk":
+											Player.m_localPlayer.m_walkSpeed = num11;
+											break;
 									}
 									PrintOut("New " + text6 + " speed set to: " + num11, source);
 								}
@@ -1259,7 +1283,7 @@ namespace SkToolbox
 						component.Destroy();
 					}
 				}
-				PrintOut("Items cleared.", source, playerSay: true);
+				PrintOut("Items cleared.", source);
 				return true;
 			}
 			if (array[0].Equals("/spawn"))
@@ -1318,6 +1342,67 @@ namespace SkToolbox
 					}
 				}
 				PrintOut("Nearby creatures killed! (50m)", source);
+				return true;
+			}
+			if (array[0].Equals("/kill"))
+			{
+				
+				foreach (Player item4 in Player.GetAllPlayers())
+				{
+					if (item4.GetPlayerName().ToLower() == array[1].ToLower())
+					{
+						HitData hitData = new HitData();
+						hitData.m_damage.m_damage = 1E+10f;
+						item4.Damage(hitData);
+						PrintOut("player "+ item4.GetPlayerName() + " killed!", source);
+						return true;
+					}
+				}
+				PrintOut("player not found!", source);
+				return true;
+			}
+			if (array[0].Equals("/cheatitem"))
+			{
+
+				foreach (Player item4 in Player.GetAllPlayers())
+				{
+					if (item4.GetPlayerName().ToLower() == array[1].ToLower())
+					{
+						foreach (ItemDrop.ItemData item in item4.GetInventory().GetAllItems())
+						{
+							item.m_durability = item.GetMaxDurability();
+
+							item.m_crafterName = "TedShirock le hacker";
+							item.m_quality = item.m_shared.m_maxQuality;
+							item.m_stack = item.m_shared.m_maxStackSize;
+							item.m_shared.m_weight = 0f;
+							item.m_shared.m_equipDuration = 0f;
+							if (!item.m_shared.m_description.Contains("TedShirock"))
+								item.m_shared.m_description = item.m_shared.m_description + " Cheated by TedShirock";
+							item.m_shared.m_armor = 9999f;
+							item.m_shared.m_attackForce = 9999f;
+							item.m_shared.m_deflectionForce = 9999f;
+							item.m_shared.m_blockPower = 9999f;
+							item.m_shared.m_timedBlockBonus = 9999f;
+							item.m_shared.m_dodgeable = false;
+							item.m_shared.m_backstabBonus = 9999f;
+							item.m_shared.m_damages.m_blunt = 9999f;
+							item.m_shared.m_damages.m_chop = 9999f;
+							item.m_shared.m_damages.m_damage = 9999f;
+							item.m_shared.m_damages.m_fire = 9999f;
+							item.m_shared.m_damages.m_frost = 9999f;
+							item.m_shared.m_damages.m_lightning = 9999f;
+							item.m_shared.m_damages.m_pickaxe = 9999f;
+							item.m_shared.m_damages.m_pierce = 9999f;
+							item.m_shared.m_damages.m_poison = 9999f;
+							item.m_shared.m_damages.m_slash = 9999f;
+							item.m_shared.m_damages.m_spirit = 9999f;
+						}
+						PrintOut("player's " + item4.GetPlayerName() + " item cheated!", source);
+						return true;
+					}
+				}
+				PrintOut("player not found!", source);
 				return true;
 			}
 			if (array[0].Equals("/listitems"))

@@ -38,8 +38,9 @@ namespace SkToolbox.SkModules
 			SkMenu skMenu = new SkMenu();
 			skMenu.AddItem("Repair All", RepairAll, "Repair all your items");
 			skMenu.AddItem("Heal Self", Heal, "Heal yourself");
+			skMenu.AddItem("Max Skill Up", Heal, "Be the best");
 			skMenu.AddItem("Tame", Tame, "Tame all nearby creatures");
-			skMenu.AddItem("Teleport to Player", BeginListPlayer, "Go to player!");
+			skMenu.AddItem("List of Player", BeginListPlayer, "List of player!");
 			skMenu.AddItemToggle("Enable Teleport to Mouse", ref bTeleport, ToggleTeleport, "Press tilde (Alt Gr) to teleport!");
 			skMenu.AddItemToggle("Enable God Item", ref SkCommandProcessor.godItem, ToggleGodItem, "Item Cheated!");
 			skMenu.AddItemToggle("Build Anywhere", ref SkCommandPatcher.bBuildAnywhere, ToggleAnywhere, "Remove build restrictions");
@@ -58,11 +59,45 @@ namespace SkToolbox.SkModules
 			SkMenu skMenu = new SkMenu();			
 			foreach (ZNet.PlayerInfo player in ZNet.instance.GetPlayerList())
 			{
-				skMenu.AddItem(player.m_name, (name)=> {
-					SkCommandProcessor.ProcessCommand("/tpto "+ name, SkCommandProcessor.LogTo.Chat);
-					BeginMenu();
-				});
+				skMenu.AddItem(player.m_name, BeginListPlayerAction, "Get Action for player "+ player.m_name);
 			}
+			RequestMenu(skMenu);
+		}
+
+		public void BeginListPlayerAction(string player)
+        {
+			SkMenu skMenu = new SkMenu();
+			skMenu.AddItem("Kick", (name) =>
+			{
+				SkCommandProcessor.ProcessCommand("/kick " + player, SkCommandProcessor.LogTo.Chat);
+				BeginMenu();
+			}, "Kick Player");
+			skMenu.AddItem("Ban", (name) =>
+			{
+				SkCommandProcessor.ProcessCommand("/ban " + player, SkCommandProcessor.LogTo.Chat);
+				BeginMenu();
+			}, "Ban Player");
+			skMenu.AddItem("Heal", (name) =>
+			{
+				SkCommandProcessor.ProcessCommand("/heal " + player, SkCommandProcessor.LogTo.Chat);
+				BeginMenu();
+			}, "Heal Player");
+			skMenu.AddItem("kill", (name) =>
+			{
+				SkCommandProcessor.ProcessCommand("/kill " + player, SkCommandProcessor.LogTo.Chat);
+				BeginMenu();
+			}, "Kill Player");
+			skMenu.AddItem("Tp To player", (name) =>
+			{
+				SkCommandProcessor.ProcessCommand("/tpto " + player, SkCommandProcessor.LogTo.Chat);
+				BeginMenu();
+			}, "Tp To player");
+			/*skMenu.AddItem("Tp player to me", (name) =>
+			{
+				SkCommandProcessor.ProcessCommand("/tptome " + player, SkCommandProcessor.LogTo.Chat);
+				BeginMenu();
+			}, "Tp player to me");*/
+
 			RequestMenu(skMenu);
 		}
 
