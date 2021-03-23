@@ -863,7 +863,7 @@ namespace SkToolbox
 				}
 				return true;
 			}
-			if (array[0].Equals("/maxskill"))
+			/*if (array[0].Equals("/maxskill"))
 			{
 				foreach(Skills.Skill skill in Player.m_localPlayer.GetSkills().GetSkillList())
                 {
@@ -872,7 +872,7 @@ namespace SkToolbox
 				PrintOut("Skill up max.", source);
 				
 				return true;
-			}
+			}*/
 			if (array[0].Equals("/nores"))
 			{
 				SkCommandPatcher.InitPatch();

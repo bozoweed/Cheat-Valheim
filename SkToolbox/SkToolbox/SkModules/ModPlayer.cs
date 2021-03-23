@@ -38,10 +38,6 @@ namespace SkToolbox.SkModules
 			SkMenu skMenu = new SkMenu();
 			skMenu.AddItem("Repair All", RepairAll, "Repair all your items");
 			skMenu.AddItem("Heal Self", Heal, "Heal yourself");
-			skMenu.AddItem("Max Skill Up", (name)=> {
-				SkCommandProcessor.ProcessCommand("/maxskill", SkCommandProcessor.LogTo.Chat);
-				BeginMenu();
-			}, "Be the best");
 			skMenu.AddItem("Tame", Tame, "Tame all nearby creatures");
 			skMenu.AddItem("List of Player", BeginListPlayer, "List of player!");
 			skMenu.AddItemToggle("Enable Teleport to Mouse", ref bTeleport, ToggleTeleport, "Press tilde (Alt Gr) to teleport!");
