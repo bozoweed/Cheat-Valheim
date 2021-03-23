@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Bozoweed\\Downloads\\valheim-mods-main\\valheim-mods-main\\SkToolbox\\SkToolboxValheim.csproj": {}
+    "C:\\Users\\Bozoweed\\source\\repos\\Cheat-Valheim\\SkToolbox\\SkToolboxValheim.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Bozoweed\\Downloads\\valheim-mods-main\\valheim-mods-main\\SkToolbox\\SkToolboxValheim.csproj": {
+    "C:\\Users\\Bozoweed\\source\\repos\\Cheat-Valheim\\SkToolbox\\SkToolboxValheim.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bozoweed\\Downloads\\valheim-mods-main\\valheim-mods-main\\SkToolbox\\SkToolboxValheim.csproj",
+        "projectUniqueName": "C:\\Users\\Bozoweed\\source\\repos\\Cheat-Valheim\\SkToolbox\\SkToolboxValheim.csproj",
         "projectName": "SkToolboxValheim",
-        "projectPath": "C:\\Users\\Bozoweed\\Downloads\\valheim-mods-main\\valheim-mods-main\\SkToolbox\\SkToolboxValheim.csproj",
+        "projectPath": "C:\\Users\\Bozoweed\\source\\repos\\Cheat-Valheim\\SkToolbox\\SkToolboxValheim.csproj",
         "packagesPath": "C:\\Users\\Bozoweed\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bozoweed\\Downloads\\valheim-mods-main\\valheim-mods-main\\SkToolbox\\obj\\",
+        "outputPath": "C:\\Users\\Bozoweed\\source\\repos\\Cheat-Valheim\\SkToolbox\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

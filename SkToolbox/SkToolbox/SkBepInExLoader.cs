@@ -13,7 +13,7 @@ namespace SkToolbox
 
 		public const string AUTHOR = "Skrip";
 
-		public const string GUID = "randyknapp.mods.equipmentandquickslots";
+		public const string GUID = "org.bepinex.plugins.valheim_plus";
 
 		public const string VERSION = "1.8.2.0";
 
