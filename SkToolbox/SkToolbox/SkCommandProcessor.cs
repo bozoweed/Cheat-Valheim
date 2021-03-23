@@ -763,27 +763,14 @@ namespace SkToolbox
 					PrintOut("Failed. Item does not exist. /give [Item] [Qty=1] [Player] [Level=1]. Check for items with /listitems. Capital letters matter on this command!", source);
 					return true;
 				}
-				Player player = null;
-				foreach (Player allPlayer in Player.GetAllPlayers())
-				{
-					if (allPlayer != null && allPlayer.GetPlayerName().ToLower().StartsWith(text4.ToLower()))
-					{
-						player = allPlayer;
-						break;
-					}
-				}
-				if (player == null)
-				{
-					PrintOut("Failed. Player does not exist. /give [Item] [Qty=1] [Player] [Level=1]", source);
-					return true;
-				}
+				ZNet.PlayerInfo player = GetPlayerInfo(text4);				
 				GameObject prefab4 = ZNetScene.instance.GetPrefab(array4[0]);
 				if ((bool)prefab4)
 				{
 					PrintOut("Spawning " + num3 + " of item " + array4[0] + "(" + num4 + ") on " + text4, source, playerSay: true);
 					try
 					{
-						ItemDrop itemDrop = (ItemDrop)UnityEngine.Object.Instantiate(prefab4, player.transform.position + player.transform.forward * 1.5f + Vector3.up, Quaternion.identity).GetComponent(typeof(ItemDrop));
+						ItemDrop itemDrop = (ItemDrop)UnityEngine.Object.Instantiate(prefab4, new Vector3(player.m_position.x, player.m_position.y, player.m_position.z + 1.5f), Quaternion.identity).GetComponent(typeof(ItemDrop));
 						if (itemDrop != null && itemDrop.m_itemData != null)
 						{
 							itemDrop.m_itemData.m_quality = num4;
